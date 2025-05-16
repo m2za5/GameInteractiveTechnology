@@ -11,6 +11,10 @@ public class TobiiGazeTest : MonoBehaviour
     private const float updateInterval = 1f / 60f;
     private float timer;
 
+    public RectTransform uiElement; // 따라다닐 UI (예: 이미지, 버튼 등)
+
+
+
     void Start()
     {
 
@@ -42,7 +46,13 @@ public class TobiiGazeTest : MonoBehaviour
         GazePoint gazePoint;
         if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
         {
-            Debug.Log($"Gaze Point: ({gazePoint.X:F2}, {gazePoint.Y:F2})");
+            float screenX = (gazePoint.X + 1f) * 0.5f * Screen.width;
+            float screenY = (gazePoint.Y + 1f) * 0.5f * Screen.height;
+
+            // UI 좌표로 이동
+            uiElement.position = new Vector3(screenX, screenY, 0f);
+
+            Debug.Log($"UI 이동 위치: ({screenX}, {screenY})");
         }
         else
         {
@@ -55,5 +65,6 @@ public class TobiiGazeTest : MonoBehaviour
             TobiiGameIntegrationApi.Shutdown();
             Debug.Log("Tobii API Shutdown 완료");
         }
+
     }
 }

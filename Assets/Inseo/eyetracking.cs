@@ -1,67 +1,64 @@
-ï»¿using UnityEngine;
-using System;
-using System.Runtime.InteropServices;
-using UnityEngine.UI;
-using Tobii.GameIntegration.Net;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using UnityEngine;
 
 public class eyetracking : MonoBehaviour
 {
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetForegroundWindow();
+    UdpClient client;
+    public int port = 5052;
+    IPEndPoint remoteEP;
 
-    private const float updateInterval = 1f / 60f;
-    private float timer;
+    public Vector2 leftEyePos;
+    public Vector2 rightEyePos;
 
-    public RectTransform uiElement; // ë”°ë¼ë‹¤ë‹ UI (ì˜ˆ: ì´ë¯¸ì§€, ë²„íŠ¼ ë“±)
+    public RectTransform gazePointerUI; // Æ÷ÀÎÅÍ UI ¿¬°á
 
     void Start()
     {
-
-        Invoke("LateInitializeTobii", 1.0f);
-        TobiiGameIntegrationApi.SetApplicationName("Gaze Sample");
-
-        timer = 0f;
-    }
-
-    void LateInitializeTobii()
-    {
-        IntPtr hwnd = GetForegroundWindow();
-        TobiiGameIntegrationApi.TrackWindow(hwnd);
-        Debug.Log("TrackWindow í˜¸ì¶œë¨: " + hwnd);
-
-        var tracker = TobiiGameIntegrationApi.GetTrackerInfo();
-        Debug.Log($"Type: {tracker.Type}, IsAttached: {tracker.IsAttached}, FriendlyName: {tracker.FriendlyName}");
-
+        client = new UdpClient(port);
+        remoteEP = new IPEndPoint(IPAddress.Any, port);
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer < updateInterval) return;
-        timer = 0f;
-
-        TobiiGameIntegrationApi.Update();
-
-        GazePoint gazePoint;
-        if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
+        if (client.Available > 0)
         {
-            Debug.Log($"Gaze Point: ({gazePoint.X:F2}, {gazePoint.Y:F2})");
-        }
-        else
-        {
-            Debug.LogWarning("Gaze ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í•¨ (TryGetLatestGazePoint ì‹¤íŒ¨)");
-        }
+            byte[] data = client.Receive(ref remoteEP);
+            string json = Encoding.UTF8.GetString(data);
 
-        if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
-        {
-            // Tobiiì˜ [-1, 1] ì¢Œí‘œë¥¼ [0, Screen.width/height]ë¡œ ë³€í™˜
-            float screenX = (gazePoint.X + 1f) * 0.5f * Screen.width;
-            float screenY = (gazePoint.Y + 1f) * 0.5f * Screen.height;
+            EyeData eye = JsonUtility.FromJson<EyeData>(json);
 
-            // UI ì¢Œí‘œë¡œ ì´ë™
-            uiElement.position = new Vector3(screenX, screenY, 0f);
+            float gazeX = (eye.left_x + eye.right_x) / 2f;
+            float gazeY = (eye.left_y + eye.right_y) / 2f;
 
-            Debug.Log($"UI ì´ë™ ìœ„ì¹˜: ({screenX}, {screenY})");
+            // Ä¿½ºÅÍ¸¶ÀÌÂ¡ °¡´ÉÇÑ ½Ã¾ß ¹üÀ§ (³Ê¹« Á¼°Å³ª ³ĞÀ¸¸é Á¶Á¤)
+            float minX = 0.35f, maxX = 0.65f;
+            float minY = 0.35f, maxY = 0.65f;
+
+            float Remap(float value, float from1, float to1, float from2, float to2)
+            {
+                return Mathf.Clamp01((value - from1) / (to1 - from1)) * (to2 - from2) + from2;
+            }
+
+            float screenX = Remap(gazeX, minX, maxX, Screen.width,0);
+            float screenY = Remap(gazeY, minY, maxY, Screen.height, 0); // YÃà ¹İÀü
+
+            if (gazePointerUI != null)
+            {
+                gazePointerUI.position = new Vector2(screenX, screenY);
+            }
         }
+    }
+
+    [System.Serializable]
+    public class EyeData
+    {
+        public float left_x, left_y, right_x, right_y;
+    }
+
+    void OnApplicationQuit()
+    {
+        client.Close();
     }
 }
