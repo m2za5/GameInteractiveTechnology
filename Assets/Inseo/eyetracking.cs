@@ -1,79 +1,67 @@
-using UnityEngine;
-using UnityEngine.UI;
+ï»¿using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
+using UnityEngine.UI;
 using Tobii.GameIntegration.Net;
 
-public class GazeVisualizer : MonoBehaviour
+public class eyetracking : MonoBehaviour
 {
     [DllImport("user32.dll")]
-    static extern IntPtr GetForegroundWindow();
+    private static extern IntPtr GetForegroundWindow();
 
-    public RectTransform gazePointerUI;
+    private const float updateInterval = 1f / 60f;
+    private float timer;
+
+    public RectTransform uiElement; // ë”°ë¼ë‹¤ë‹ UI (ì˜ˆ: ì´ë¯¸ì§€, ë²„íŠ¼ ë“±)
 
     void Start()
     {
+
+        Invoke("LateInitializeTobii", 1.0f);
         TobiiGameIntegrationApi.SetApplicationName("Gaze Sample");
 
-        // 1ÃÊ Áö¿¬ ÈÄ ÃÊ±âÈ­
-        Invoke(nameof(LateInitializeTobii), 1.0f);
+        timer = 0f;
     }
 
     void LateInitializeTobii()
     {
         IntPtr hwnd = GetForegroundWindow();
         TobiiGameIntegrationApi.TrackWindow(hwnd);
-        Debug.Log("TrackWindow È£ÃâµÊ: " + hwnd);
+        Debug.Log("TrackWindow í˜¸ì¶œë¨: " + hwnd);
 
         var tracker = TobiiGameIntegrationApi.GetTrackerInfo();
         Debug.Log($"Type: {tracker.Type}, IsAttached: {tracker.IsAttached}, FriendlyName: {tracker.FriendlyName}");
+
     }
 
     void Update()
     {
+        timer += Time.deltaTime;
+        if (timer < updateInterval) return;
+        timer = 0f;
+
         TobiiGameIntegrationApi.Update();
 
-        if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out GazePoint gazePoint))
+        GazePoint gazePoint;
+        if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
         {
-            float gazeX = gazePoint.X / Screen.width;
-            float gazeY = gazePoint.Y / Screen.height;
-
-            // »ç¿ëÀÚ ÁöÁ¤ ½Ã¾ß ¹üÀ§ (Á¶Á¤ °¡´É)
-            float minX = 0.3f, maxX = 0.7f;
-            float minY = 0.3f, maxY = 0.7f;
-
-            float Remap(float value, float from1, float to1, float from2, float to2)
-            {
-                return Mathf.Clamp01((value - from1) / (to1 - from1)) * (to2 - from2) + from2;
-            }
-
-            // È­¸é ÁÂÇ¥·Î º¸Á¤
-            float screenX = Remap(gazeX, minX, maxX, 0, Screen.width);
-            float screenY = Remap(gazeY, minY, maxY, 0, Screen.height); // YÃà ±×´ë·Î »ç¿ë
-
-            if (gazePointerUI != null)
-            {
-                // UI ÁÂÇ¥·Î º¯È¯
-                RectTransform canvasRect = gazePointerUI.parent.GetComponent<RectTransform>();
-                Vector2 localPoint;
-
-                // ½ºÅ©¸° ÁÂÇ¥ ¡æ Canvas local ÁÂÇ¥ º¯È¯
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    canvasRect, new Vector2(screenX, screenY), null, out localPoint
-                );
-
-                gazePointerUI.anchoredPosition = localPoint;
-
-                if (!gazePointerUI.gameObject.activeSelf)
-                    gazePointerUI.gameObject.SetActive(true);
-            }
-
-            Debug.Log($"Gaze Point (norm): ({gazeX:F2}, {gazeY:F2}) ¡æ screen: ({screenX}, {screenY})");
+            Debug.Log($"Gaze Point: ({gazePoint.X:F2}, {gazePoint.Y:F2})");
         }
         else
         {
-            // µ¥ÀÌÅÍ¸¦ ¸ø ¹Ş´õ¶óµµ Æ÷ÀÎÅÍ¸¦ À¯Áö
-            Debug.LogWarning("Gaze µ¥ÀÌÅÍ¸¦ ¸ø ¹ŞÀ½ (TryGetLatestGazePoint ½ÇÆĞ)");
+            Debug.LogWarning("Gaze ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í•¨ (TryGetLatestGazePoint ì‹¤íŒ¨)");
+        }
+
+        if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
+        {
+            // Tobiiì˜ [-1, 1] ì¢Œí‘œë¥¼ [0, Screen.width/height]ë¡œ ë³€í™˜
+            float screenX = (gazePoint.X + 1f) * 0.5f * Screen.width;
+            float screenY = (gazePoint.Y + 1f) * 0.5f * Screen.height;
+
+            // UI ì¢Œí‘œë¡œ ì´ë™
+            uiElement.position = new Vector3(screenX, screenY, 0f);
+
+            Debug.Log($"UI ì´ë™ ìœ„ì¹˜: ({screenX}, {screenY})");
         }
     }
 }
