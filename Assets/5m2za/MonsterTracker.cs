@@ -30,11 +30,24 @@ public class MonsterTracker : MonoBehaviour
         IntPtr hwnd = GetForegroundWindow();
         TobiiGameIntegrationApi.TrackWindow(hwnd);
     }
+    void OnEnable()
+    {
+        LateInitializeTobii();
+    }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+        {
+            Debug.Log("[MonsterTracker] 앱 포커스 복귀");
+            LateInitializeTobii();
+        }
+    }
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer < updateInterval) return;
+        timer += Time.unscaledDeltaTime;
+        if (timer < 1f / 60f) return;
         timer = 0f;
 
         TobiiGameIntegrationApi.Update();
@@ -62,9 +75,7 @@ public class MonsterTracker : MonoBehaviour
             }
 
             for (int i = 0; i < monsterOutlines.Length; i++)
-            {
                 monsterOutlines[i].enabled = (i == newIndex);
-            }
 
             if (newIndex != -1 && newIndex != currentIndex)
             {
@@ -77,5 +88,11 @@ public class MonsterTracker : MonoBehaviour
                 currentIndex = -1;
             }
         }
+        else
+        {
+            if (Time.frameCount % 60 == 0)
+                Debug.LogWarning("Gaze 데이터를 가져오지 못함 (TryGetLatestGazePoint 실패)");
+        }
     }
 }
+
