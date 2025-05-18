@@ -13,8 +13,6 @@ public class TobiiGazeTest : MonoBehaviour
 
     public RectTransform uiElement; // 따라다닐 UI (예: 이미지, 버튼 등)
 
-
-
     void Start()
     {
 
@@ -22,7 +20,7 @@ public class TobiiGazeTest : MonoBehaviour
         TobiiGameIntegrationApi.SetApplicationName("Gaze Sample");
 
         timer = 0f;
-    }
+    }   
 
     void LateInitializeTobii()
     {
