@@ -48,8 +48,10 @@ public class MonsterTracker2 : MonoBehaviour
 
             Vector2 gazeScreenPos = new Vector2(screenX, screenY);
 
+            Vector2 offset = gazePointer.sizeDelta * 0.5f;
+
             if (gazePointer != null)
-                gazePointer.position = gazeScreenPos;
+                gazePointer.position = gazeScreenPos - offset;//오프셋 추가
 
             int newIndex = -1;
 
