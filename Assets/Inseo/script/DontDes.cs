@@ -27,6 +27,12 @@ public class DontDes : MonoBehaviour
         Debug.Log($"씬 변경: 이전 씬 = {previousSceneName}, 새 씬 = {newScene.name}");
     }
 
+    //다음 설정 씬으로 넘어가기 위함
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene(SceneChanger.currSceneNum);
+    }
+
     void OnDestroy()
     {
         if (instance == this)
