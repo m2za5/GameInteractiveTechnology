@@ -1,25 +1,33 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class CorrelationEvaluator : MonoBehaviour
 {
     public Transform target;
+    public GazeSimulator mouseSimulator;
     public TobiiGazeTest gazeSimulator;
     public RectTransform pointerUI;
+    public Canvas canvas;
 
     private List<Vector2> gazePath = new();
     private List<Vector2> objectPath = new();
     public int windowSize = 60;
-    public TextMeshProUGUI scoreText; // ¡ç UI ÅØ½ºÆ® ¿¬°á¿ë
+    public TextMeshProUGUI scoreText; // â† UI í…ìŠ¤íŠ¸ ì—°ê²°ìš©
 
     public float EvaluateCorrelation()
     {
-        Vector2 gaze = gazeSimulator.GetGazePoint();
-       // pointerUI.position = gaze;
+        Vector2 screenVec = gazeSimulator.GetGazePoint(true);
+       // Vector2 gazeVec = gazeSimulator.GetGazePoint(false);
+        Vector2 gazeVec = mouseSimulator.GetGazeScreenPosition();
+        if(gazeVec != new Vector2(0, 0))
+        {
+            //pointerUI.anchoredPosition = screenVec;
+            pointerUI.position = gazeVec;
+        }
         Vector2 obj = Camera.main.WorldToScreenPoint(target.position);
 
-        gazePath.Add(gaze);
+        gazePath.Add(gazeVec);
         objectPath.Add(obj);
 
         if (gazePath.Count > windowSize)
@@ -34,7 +42,7 @@ public class CorrelationEvaluator : MonoBehaviour
         for (int i = 0; i < gazePath.Count; i++)
         {
             float dist = Vector2.Distance(gazePath[i], objectPath[i]);
-           //score += 1f / (1f + dist); // °¡±î¿ï¼ö·Ï ³ôÀº Á¡¼ö
+           //score += 1f / (1f + dist); // ê°€ê¹Œìš¸ìˆ˜ë¡ ë†’ì€ ì ìˆ˜
             score += Mathf.Exp(-dist * dist / 5000f);
             
         }
