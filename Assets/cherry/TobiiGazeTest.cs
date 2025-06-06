@@ -33,6 +33,32 @@ public class TobiiGazeTest : MonoBehaviour
 
     }
 
+    public Vector2 GetGazePoint()
+    {
+        TobiiGameIntegrationApi.Update();
+        GazePoint gazePoint;
+        Vector2 gazeVec;
+
+        if (TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
+        {
+            float screenX = (gazePoint.X + 1f) * 0.5f * Screen.width;
+            float screenY = (gazePoint.Y + 1f) * 0.5f * Screen.height;
+
+            // UI 좌표로 이동
+            gazeVec = new Vector2(screenX, screenY);
+            uiElement.position = gazeVec;
+
+            return gazeVec;
+        }
+        else
+        {
+            Debug.LogWarning("Gaze 데이터를 가져오지 못함 (TryGetLatestGazePoint 실패)");
+            gazeVec = new Vector2(0, 0);
+            return gazeVec;
+        }
+    }
+
+
     void Update()
     {
         timer += Time.deltaTime;
