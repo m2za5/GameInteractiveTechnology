@@ -14,6 +14,7 @@ public class CubeTracker : MonoBehaviour
     public GameObject[] cubes;
     public Outline[] cubeOutlines;
     public TextMeshProUGUI gazeLabel;
+    public RectTransform pointerUI;
 
     private const float updateInterval = 1f / 60f;
     private float timer;
@@ -48,13 +49,15 @@ public class CubeTracker : MonoBehaviour
 
             Vector2 gazeScreenPos = new Vector2(screenX, screenY);
 
-            Debug.Log($"Gaze Position - X: {gazePoint.X}, Y: {gazePoint.Y}");
+            pointerUI.position = gazeScreenPos;
+
+          //  Debug.Log($"Gaze Position - X: {gazePoint.X}, Y: {gazePoint.Y}");
 
             Vector2 offset = gazePointer.sizeDelta * 0.5f;
             if (gazePointer != null)
                 gazePointer.position = gazeScreenPos - offset;
 
-            Debug.Log($"Gaze Pointer Position: {gazePointer.position}");
+          //  Debug.Log($"Gaze Pointer Position: {gazePointer.position}");
 
             Ray ray = Camera.main.ScreenPointToRay(gazeScreenPos);
             RaycastHit hit;
