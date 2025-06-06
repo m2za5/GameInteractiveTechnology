@@ -30,7 +30,7 @@ public class ButtonClickLogger : MonoBehaviour
 
     void LogButtonClick(string label)
     {
-        string log = $"{System.DateTime.Now},{SceneManager.GetActiveScene().name}, {"survey 1"},{label}";
+        string log = $"{System.DateTime.Now},{DontDes.previousSceneName}, {"survey 1"},{label}";
         File.AppendAllText(csvPath, log + "\n");
         Debug.Log($"CSV ¿˙¿Â: {log}");
     }

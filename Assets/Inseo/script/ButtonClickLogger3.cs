@@ -48,7 +48,7 @@ public class ButtonClickLogger3 : MonoBehaviour
     void CheckAnswer(int selectedIndex)
     {
         string result = (selectedIndex == correctIndex) ? "success" : "fail";
-        string log = $"{System.DateTime.Now},{SceneManager.GetActiveScene().name}, {"survey 3"},{answers[correctIndex]},{answers[selectedIndex]},{result}";
+        string log = $"{System.DateTime.Now},{DontDes.previousSceneName}, {"survey 3"},{answers[correctIndex]},{answers[selectedIndex]},{result}";
         File.AppendAllText(csvPath, log + "\n");
         Debug.Log($"CSV ¿˙¿Â: {log}");
     }
