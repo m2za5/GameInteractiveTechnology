@@ -24,6 +24,8 @@ public class PathSaver : MonoBehaviour
     {
         PathData data = new PathData { points = PathManager.Instance.drawer.GetPath() };
         string json = JsonUtility.ToJson(data, true);
+        //string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        File.WriteAllText(Application.dataPath + "/" + fileName, json);
         string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
         File.WriteAllText(fullPath, json);
         Debug.Log("경로 저장 완료: " + fullPath);

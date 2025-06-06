@@ -17,6 +17,7 @@ public class PathFollower : MonoBehaviour
         following = true;
 
         Vector3 pathVec = new Vector3(path[0].x, path[0].y, transform.position.z);
+        Debug.Log(pathVec);
         transform.position = pathVec;
     }
 

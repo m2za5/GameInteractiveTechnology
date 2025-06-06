@@ -4,25 +4,25 @@ using TMPro;
 
 public class CorrelationEvaluator : MonoBehaviour
 {
+    [Header("GazeSimulator")]
     public Transform target;
     public GazeSimulator mouseSimulator;
     public TobiiGazeTest gazeSimulator;
+    public int windowSize = 60;
+
+    [Header("UI")]
     public RectTransform pointerUI;
-    public Canvas canvas;
+    public TextMeshProUGUI scoreText; // ← UI 텍스트 연결용
 
     private List<Vector2> gazePath = new();
     private List<Vector2> objectPath = new();
-    public int windowSize = 60;
-    public TextMeshProUGUI scoreText; // ← UI 텍스트 연결용
 
     public float EvaluateCorrelation()
     {
-        Vector2 screenVec = gazeSimulator.GetGazePoint(true);
-       // Vector2 gazeVec = gazeSimulator.GetGazePoint(false);
-        Vector2 gazeVec = mouseSimulator.GetGazeScreenPosition();
+        Vector2 gazeVec = gazeSimulator.GetGazePoint(false);
+        //Vector2 gazeVec = mouseSimulator.GetGazeScreenPosition();
         if(gazeVec != new Vector2(0, 0))
         {
-            //pointerUI.anchoredPosition = screenVec;
             pointerUI.position = gazeVec;
         }
         Vector2 obj = Camera.main.WorldToScreenPoint(target.position);
@@ -46,7 +46,10 @@ public class CorrelationEvaluator : MonoBehaviour
             score += Mathf.Exp(-dist * dist / 5000f);
             
         }
-        scoreText.text = $"Score: {(score / gazePath.Count * 100f):F1} %";
-        return score / gazePath.Count;
+
+        score = score / gazePath.Count * 100f;
+        scoreText.text = $"Score: {(score):F1} %";
+
+        return score;
     }
 }
