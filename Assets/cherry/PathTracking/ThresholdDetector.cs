@@ -13,6 +13,7 @@ public class ThresholdDetector : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI finalBrightText; // ← UI 텍스트 연결용
     public GameObject nextButtonUI; // ← UI 텍스트 연결용
+    public GameObject startButtonUI; // ← UI 텍스트 연결용
 
 
     private BrightnessManager brightnessManager;
@@ -22,6 +23,7 @@ public class ThresholdDetector : MonoBehaviour
     private float cooldownTime = 1.0f; // ⏱ 밝기 낮춘 뒤 재검사까지 대기 시간
     private float cooldownTimer = 0f;
     private bool isCoolingDown = false;
+    private bool isStarted = false;
 
 
     private void Start()
@@ -31,6 +33,8 @@ public class ThresholdDetector : MonoBehaviour
 
     void Update()
     {
+        if (!isStarted) return;
+
         if (isCoolingDown)
         {
             cooldownTimer -= Time.deltaTime;
@@ -45,7 +49,7 @@ public class ThresholdDetector : MonoBehaviour
 
         float score = evaluator.EvaluateCorrelation();
 
-        if(frameCount == 180)
+        if(frameCount == 240)
         {
             if (successCount >= successFrames) // 인식된 순간
             {
@@ -60,12 +64,12 @@ public class ThresholdDetector : MonoBehaviour
                 successCount = 0;
                 frameCount = 0;
             }
-            else if (successCount < failureFrames && !brightnessManager.isFirstTest)  // 인식 실패
+            else if (successCount < failureFrames)  // 인식 실패
             {
                 finalBrightText.text = $"FinalBright: {(brightnessManager.lastExposureBT):F1} %";
                 nextButtonUI.SetActive(true);
 
-                Debug.Log($"❌ 인식 실패 지속됨 → 밝기 다시 증가");
+                Debug.Log($"❌ 인식 실패 지속됨 → frameCount : " + frameCount);
                 brightnessManager.SetFinalExposure();
                 failureCount = 0;
             }
@@ -81,13 +85,24 @@ public class ThresholdDetector : MonoBehaviour
             successCount++;
            
         }
-        else if (score < failureScore && !brightnessManager.isFirstTest)
+        else if (score < failureScore)
         {
             failureCount++;
 
         }
-
         frameCount++;
+    }
+
+    public void StartDetection()
+    {
+        isStarted = true;
+        successCount = 0;
+        failureCount = 0;
+        frameCount = 0;
+        isCoolingDown = false;
+        Debug.Log("🟢 감지 시작됨");
+
+        startButtonUI.SetActive(false);
     }
 
 
