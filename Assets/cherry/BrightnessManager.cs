@@ -82,20 +82,21 @@ public class BrightnessManager : MonoBehaviour
 
     private void Update()
     {
-    //    if (isFirstTest)
-    //    {
-    //        step += 1;
-    //        if (step == max_step)
-    //        {
-    //            currentBT += 0.1f;
-    //            SetExposure(currentBT);
-    //            if (currentBT >= target_brightness)
-    //            {
-    //                currentBT = min_brightness;
-    //            }
-    //            step = 0;
-    //        }
+        //    if (isFirstTest)
+        //    {
+        //        step += 1;
+        //        if (step == max_step)
+        //        {
+        //            currentBT += 0.1f;
+        //            SetExposure(currentBT);
+        //            if (currentBT >= target_brightness)
+        //            {
+        //                currentBT = min_brightness;
+        //            }
+        //            step = 0;
+        //        }
 
-    //    }
-    //}
+        //    }
+        //}
+    }
 }
