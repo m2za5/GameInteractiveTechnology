@@ -23,6 +23,10 @@ public class PathManager : MonoBehaviour
 
         Instance = this;
 
+
+        follower.ResetPath();
+        follower.BeginFollow();
+
         // ✅ 씬 전환 시에도 유지하려면 아래 줄 주석 해제
         // DontDestroyOnLoad(gameObject);
     }
@@ -49,11 +53,6 @@ public class PathManager : MonoBehaviour
             follower.BeginFollow();
             Debug.Log("🚀 경로 따라 이동 시작 (Space)");
         }
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            follower.ResetPath();
-            Debug.Log("🔄 경로 리셋 (Backspace)");
-        }
+       
     }
 }
