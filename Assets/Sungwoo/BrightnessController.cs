@@ -63,7 +63,7 @@ public class BrightnessController : MonoBehaviour
                 BrightnessValue.text = $"Exposure: {value:F2}";
 
                 // 텍스트 색상 변경
-                if (value >= 3f)
+                if (value >= 2f)
                 {
                     BrightnessValue.color = highExposureColor;
                 }
