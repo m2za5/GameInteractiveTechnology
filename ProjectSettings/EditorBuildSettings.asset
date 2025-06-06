@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Sungwoo/General Light Control.unity
+    guid: b0233f5428cf5bd47857883e05af1864
+  - enabled: 1
+    path: Assets/cherry/PathTestScene.unity
+    guid: e949622a6ec2a5e42938d6c888263789
+  - enabled: 1
     path: Assets/Inseo/survey.unity
     guid: 55ff2af2ead81ef42af07f07cbff27e8
   m_configObjects: {}

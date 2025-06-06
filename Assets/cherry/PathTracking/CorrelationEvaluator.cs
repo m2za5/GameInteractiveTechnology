@@ -41,10 +41,12 @@ public class CorrelationEvaluator : MonoBehaviour
         float score = 0f;
         for (int i = 0; i < gazePath.Count; i++)
         {
+            float maxDist = 500f;
             float dist = Vector2.Distance(gazePath[i], objectPath[i]);
-           //score += 1f / (1f + dist); // 가까울수록 높은 점수
-            score += Mathf.Exp(-dist * dist / 5000f);
-            
+            float contribution = Mathf.Clamp01(1f - (dist / maxDist)); // 0~1 선형 감소
+            score += contribution;
+            //score += Mathf.Exp(-dist * dist / 20000f);
+
         }
 
         score = score / gazePath.Count * 100f;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class ButtonClickLogger3 : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class ButtonClickLogger3 : MonoBehaviour
     void CheckAnswer(int selectedIndex)
     {
         string result = (selectedIndex == correctIndex) ? "success" : "fail";
-        string log = $"{System.DateTime.Now},{"survey 3"},{answers[correctIndex]},{answers[selectedIndex]},{result}";
+        string log = $"{System.DateTime.Now},{DontDes.previousSceneName}, {"survey 3"},{answers[correctIndex]},{answers[selectedIndex]},{result}";
         File.AppendAllText(csvPath, log + "\n");
         Debug.Log($"CSV ¿˙¿Â: {log}");
     }

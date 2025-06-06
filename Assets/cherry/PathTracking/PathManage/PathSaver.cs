@@ -12,28 +12,23 @@ public class PathSaver : MonoBehaviour
 {
     public string fileName = "saved_path.json";
 
-    //public void SavePath()
-    //{
-    //    PathData data = new PathData { points = drawer.GetPath() };
-    //    string json = JsonUtility.ToJson(data, true);
-    //    //File.WriteAllText(Application.dataPath + "/" + fileName, json);
-    //    string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-    //}
+    string GetFullPath()
+    {
+        return Path.Combine(Application.streamingAssetsPath, fileName);
+    }
 
     public void SavePath()
     {
         PathData data = new PathData { points = PathManager.Instance.drawer.GetPath() };
         string json = JsonUtility.ToJson(data, true);
-        //string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-        File.WriteAllText(Application.dataPath + "/" + fileName, json);
-        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        string fullPath = GetFullPath();
         File.WriteAllText(fullPath, json);
         Debug.Log("경로 저장 완료: " + fullPath);
     }
 
     public List<Vector3> LoadPath()
     {
-        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        string fullPath = GetFullPath();
         if (!File.Exists(fullPath))
         {
             Debug.LogWarning("경로 파일이 없습니다: " + fullPath);

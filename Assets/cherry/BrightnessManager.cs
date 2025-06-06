@@ -35,8 +35,6 @@ public class BrightnessManager : MonoBehaviour
 
     void Start()
     {
-        //scene 넘어가도 남아있어야함
-        DontDestroyOnLoad(gameObject);
 
         currentBT = min_brightness;
         // Color Adjustments 효과를 Profile에서 찾기
