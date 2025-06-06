@@ -50,16 +50,15 @@ public class BlinkCube : MonoBehaviour
                 cube.SetActive(false);
             }
 
-            int randomIndex = Random.Range(0, Cubes.Length);
-            Cubes[randomIndex].SetActive(true);
-
-            Debug.Log($"테스트 {successfulTests + failedTests + 1} 시작");
-
             for (currentStep = 1; currentStep <= totalSteps; currentStep++)
             {
                 Debug.Log($"단계 {currentStep} 시작");
 
-                yield return StartCoroutine(Blinking(Cubes[randomIndex]));
+                int randomIndex = Random.Range(0, Cubes.Length);
+                GameObject selectedCube = Cubes[randomIndex];
+                selectedCube.SetActive(true);
+
+                yield return StartCoroutine(Blinking(selectedCube));
 
                 bool passedStep = false;
                 yield return StartCoroutine(RunTest(testResult =>
