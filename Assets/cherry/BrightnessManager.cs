@@ -14,7 +14,7 @@ public class BrightnessManager : MonoBehaviour
     private float step = 0;
     public float max_step = 50f;
     public float min_brightness = -7f;
-    public float max_brightness = 4f;
+    public float target_brightness = 4f;
     public float step_brightness = 0.2f;
     public bool isFirstTest = true;
 
@@ -36,12 +36,14 @@ public class BrightnessManager : MonoBehaviour
     void Start()
     {
 
-        currentBT = min_brightness;
+        currentBT = target_brightness;
+        //SetExposure(currentBT);
+
         // Color Adjustments 효과를 Profile에서 찾기
         if (volume.profile.TryGet(out colorAdjustments))
         {
             // 초기화 시 원하는 노출값을 설정할 수도 있음
-            SetExposure(0f); // 예시: 0EV로 초기화
+            SetExposure(currentBT); // 예시: 0EV로 초기화
         }
         else
         {
@@ -80,20 +82,20 @@ public class BrightnessManager : MonoBehaviour
 
     private void Update()
     {
-        if (isFirstTest)
-        {
-            step += 1;
-            if (step == max_step)
-            {
-                currentBT += 0.1f;
-                SetExposure(currentBT);
-                if (currentBT >= max_brightness)
-                {
-                    currentBT = min_brightness;
-                }
-                step = 0;
-            }
+    //    if (isFirstTest)
+    //    {
+    //        step += 1;
+    //        if (step == max_step)
+    //        {
+    //            currentBT += 0.1f;
+    //            SetExposure(currentBT);
+    //            if (currentBT >= target_brightness)
+    //            {
+    //                currentBT = min_brightness;
+    //            }
+    //            step = 0;
+    //        }
 
-        }
-    }
+    //    }
+    //}
 }

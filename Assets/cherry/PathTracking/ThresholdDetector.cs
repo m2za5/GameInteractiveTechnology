@@ -12,11 +12,13 @@ public class ThresholdDetector : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI finalBrightText; // ← UI 텍스트 연결용
+    public GameObject nextButtonUI; // ← UI 텍스트 연결용
 
 
     private BrightnessManager brightnessManager;
     private int successCount = 0;
     private int failureCount = 0;
+    private int frameCount = 0;
     private float cooldownTime = 1.0f; // ⏱ 밝기 낮춘 뒤 재검사까지 대기 시간
     private float cooldownTimer = 0f;
     private bool isCoolingDown = false;
@@ -43,9 +45,8 @@ public class ThresholdDetector : MonoBehaviour
 
         float score = evaluator.EvaluateCorrelation();
 
-        if (score > successScore)
+        if(frameCount == 180)
         {
-            successCount++;
             if (successCount >= successFrames) // 인식된 순간
             {
                 Debug.Log($"✅ 인식됨! (연속 {successFrames} 프레임)");
@@ -56,28 +57,37 @@ public class ThresholdDetector : MonoBehaviour
                 isCoolingDown = true;
                 cooldownTimer = cooldownTime;
 
-                //findText.SetActive(true);
+                successCount = 0;
+                frameCount = 0;
             }
+            else if (successCount < failureFrames && !brightnessManager.isFirstTest)  // 인식 실패
+            {
+                finalBrightText.text = $"FinalBright: {(brightnessManager.lastExposureBT):F1} %";
+                nextButtonUI.SetActive(true);
+
+                Debug.Log($"❌ 인식 실패 지속됨 → 밝기 다시 증가");
+                brightnessManager.SetFinalExposure();
+                failureCount = 0;
+            }
+
+            successCount = 0;
+            failureCount = 0;
+            frameCount = 0;
+
+        }
+
+        if (score > successScore)
+        {
+            successCount++;
+           
         }
         else if (score < failureScore && !brightnessManager.isFirstTest)
         {
             failureCount++;
-            successCount = 0;
 
-            if (failureCount >= failureFrames)
-            {
-                finalBrightText.text = $"FinalBright: {(brightnessManager.lastExposureBT):F1} %";
+        }
 
-                Debug.Log($"❌ 인식 실패 지속됨 → 밝기 다시 증가");
-                //brightnessManager.SetFinalExposure();
-                brightnessManager.SetFinalExposure();
-                failureCount = 0;
-            }
-        }
-        else
-        {
-            successCount = 0;
-        }
+        frameCount++;
     }
 
 
