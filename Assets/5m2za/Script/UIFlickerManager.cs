@@ -133,18 +133,18 @@ public class FlickerManager : MonoBehaviour
     bool IsLookingAtTarget()
     {
         GazePoint gazePoint;
-        if (!TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
+            if (!TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
         {
             Debug.Log("GazePoint ¾øÀ½");
             return false;
         }
-
+        
         float screenX = (gazePoint.X + 1f) * 0.5f * Screen.width;
         float screenY = (gazePoint.Y + 1f) * 0.5f * Screen.height;
         Vector2 gazeScreenPos = new Vector2(screenX, screenY);
 
         if (gazePointer != null)
-            gazePointer.position = gazeScreenPos;
+        gazePointer.position = gazeScreenPos;
 
         bool hit = RectTransformUtility.RectangleContainsScreenPoint(targetUI, gazeScreenPos);
         Debug.Log($"GazePos: {gazeScreenPos} | Hit UI: {hit}");
