@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class BlinkCube : MonoBehaviour
 {
     public GameObject[] Cubes;
@@ -44,13 +43,14 @@ public class BlinkCube : MonoBehaviour
     {
         while (successfulTests + failedTests < totalTests)
         {
-            int failedSteps = 0;
             foreach (GameObject cube in Cubes)
             {
                 cube.SetActive(false);
             }
 
-            for (currentStep = 1; currentStep <= totalSteps; currentStep++)
+            bool testFailed = false;
+
+            for (currentStep = 1; !testFailed; currentStep++)
             {
                 Debug.Log($"단계 {currentStep} 시작");
 
@@ -69,28 +69,23 @@ public class BlinkCube : MonoBehaviour
                 if (passedStep)
                 {
                     Debug.Log($"단계 {currentStep} 성공");
+                    BrightnessManager.Instance.DecreaseExposure();
                 }
                 else
                 {
                     Debug.Log($"단계 {currentStep} 실패");
-                    failedSteps++;
 
-                    if (failedSteps >= 2)
-                    {
-                        Debug.Log("이 테스트 실패");
-                        failedTests++;
-                        break;
-                    }
+                    BrightnessManager.Instance.IncreaseExposure(); // 밝기 증가
+                    Debug.Log($"밝기 증가 후: {BrightnessManager.Instance.currentBT}");
+
+                    testFailed = true;
                 }
 
                 yield return new WaitForSeconds(stepDuration);
             }
 
-            if (failedSteps < 2)
-            {
-                successfulTests++;
-                Debug.Log($"테스트 {successfulTests} 통과!");
-            }
+            successfulTests++;
+            Debug.Log($"테스트 {successfulTests} 통과!");
 
             if (successfulTests + failedTests >= totalTests)
             {
@@ -98,6 +93,9 @@ public class BlinkCube : MonoBehaviour
                 break;
             }
         }
+
+        BrightnessManager.Instance.SetExposure(BrightnessManager.Instance.currentBT);
+        Debug.Log($"테스트 후 최종 밝기: {BrightnessManager.Instance.currentBT}");
 
         Debug.Log("끝~");
     }
