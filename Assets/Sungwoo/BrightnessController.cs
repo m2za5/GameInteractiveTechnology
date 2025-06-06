@@ -13,6 +13,9 @@ public class BrightnessController : MonoBehaviour
 
     private const string BrightnessKey = "Brightness"; // 저장 키
 
+    private Color normalTextColor = Color.white;
+    private Color highExposureColor = Color.black;
+
     void Start()
     {
         // 볼륨에서 ColorAdjustments 추출
@@ -42,6 +45,16 @@ public class BrightnessController : MonoBehaviour
             if (BrightnessValue != null)
             {
                 BrightnessValue.text = $"Exposure: {value:F2}";
+
+                // 텍스트 색상 변경
+                if (value >= 3f)
+                {
+                    BrightnessValue.color = highExposureColor;
+                }
+                else
+                {
+                    BrightnessValue.color = normalTextColor;
+                }
             }
         }
     }

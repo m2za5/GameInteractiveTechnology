@@ -24,11 +24,16 @@ public class SettingsUIManager : MonoBehaviour
             // 커서 상태도 같이 변경
             Cursor.visible = isActive;
             Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+
+            Time.timeScale = isActive ? 0f : 1f;
         }
     }
 
     public void CloseSettings()
     {
         settingsPanel.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }
