@@ -5815,6 +5815,7 @@ MonoBehaviour:
   blinkDuration: 1
   testDuration: 5
   stepDuration: 1
+  gazePointer: {fileID: 561736877}
   mainCamera: {fileID: 10871387}
   cubeLayer:
     serializedVersion: 2

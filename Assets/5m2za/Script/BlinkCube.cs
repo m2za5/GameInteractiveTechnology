@@ -20,6 +20,10 @@ public class BlinkCube : MonoBehaviour
     public float stepDuration = 1f;
     public RectTransform gazePointer;
 
+    [Header("UI")]
+    public GameObject nextButtonUI; // ← UI 텍스트 연결용
+    public GameObject startButtonUI; // ← UI 텍스트 연결용
+
     private int successfulTests = 0;
     private int failedTests = 0;
     private int totalTests = 3;
@@ -48,8 +52,14 @@ public class BlinkCube : MonoBehaviour
         TobiiGameIntegrationApi.SetApplicationName("Gaze Sample");
         //timer = 0f;
 
+        
+    }
+    public void StartTest()
+    {
+        startButtonUI.SetActive(false);
         StartCoroutine(ActivateNextCube());
     }
+
 
     void LateInitializeTobii()
     {
@@ -115,6 +125,7 @@ public class BlinkCube : MonoBehaviour
         BrightnessManager.Instance.SetExposure(BrightnessManager.Instance.currentBT);
         Debug.Log($"테스트 후 최종 밝기: {BrightnessManager.Instance.currentBT}");
 
+        nextButtonUI.SetActive(true);
         Debug.Log("끝~");
     }
 
