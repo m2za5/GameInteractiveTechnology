@@ -89,12 +89,12 @@ public class CubeTracker : MonoBehaviour
 
             if (newIndex != -1 && newIndex != currentIndex)
             {
-                gazeLabel.text = "Gaze Cube : " + cubes[newIndex].name;
+                //gazeLabel.text = "Gaze Cube : " + cubes[newIndex].name;
                 currentIndex = newIndex;
             }
             else if (newIndex == -1)
             {
-                gazeLabel.text = "Gaze Cube : ";
+                //gazeLabel.text = "Gaze Cube : ";
                 currentIndex = -1;
             }
         }

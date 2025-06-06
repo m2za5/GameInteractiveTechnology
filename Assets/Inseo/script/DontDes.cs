@@ -30,6 +30,11 @@ public class DontDes : MonoBehaviour
     //다음 설정 씬으로 넘어가기 위함
     public void ChangeScene()
     {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Volume");//VolumeTag 모두 삭제
+        foreach (var obj in objs)
+        {
+            Destroy(obj);
+        }
         SceneManager.LoadScene(SceneChanger.currSceneNum);
     }
 

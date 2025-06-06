@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: cb20c710b0721ef4d88cabbec2aa4da7, type: 2}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.14774056, g: 0.2516137, b: 0.13373606, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: ca702f28206d505469d934de3af6b387, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -463,7 +463,7 @@ MonoBehaviour:
   volume: {fileID: 1083057792}
   max_step: 30
   min_brightness: -9
-  target_brightness: -1
+  target_brightness: 0
   step_brightness: 0.4
   isFirstTest: 1
   lastExposureBT: 0
@@ -600,6 +600,7 @@ GameObject:
   - component: {fileID: 377108771}
   - component: {fileID: 377108770}
   - component: {fileID: 377108769}
+  - component: {fileID: 377108772}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -670,7 +671,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 377108770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 377108772}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: survey
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &377108770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,6 +722,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377108767}
   m_CullTransparentMesh: 1
+--- !u!114 &377108772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377108767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8afdea3e250d24cbeac4fdaa4d8290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &419548656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,7 +1470,7 @@ MonoBehaviour:
   evaluator: {fileID: 798634036}
   successScore: 40
   successFrames: 200
-  failureScore: 30
+  failureScore: 40
   failureFrames: 30
   finalBrightText: {fileID: 876406172}
   nextButtonUI: {fileID: 377108767}
@@ -2012,9 +2037,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1083057793}
   - component: {fileID: 1083057792}
+  - component: {fileID: 1083057794}
   m_Layer: 0
   m_Name: Volume
-  m_TagString: Untagged
+  m_TagString: Volume
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2051,6 +2077,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1083057794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083057791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40bb89a58196074e85ff632ab3d8ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1106018543
 GameObject:
   m_ObjectHideFlags: 0
