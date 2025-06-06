@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a857907565bf14bbdc3cfbb33a4652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
 --- !u!4 &4627331
 Transform:
   m_ObjectHideFlags: 0
@@ -196,7 +197,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5e398fe87ce4948880fce55c340e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 0}
+  port: 5052
+  leftEyePos: {x: 0, y: 0}
+  rightEyePos: {x: 0, y: 0}
+  gazePointerUI: {fileID: 0}
 --- !u!4 &355259437
 Transform:
   m_ObjectHideFlags: 0
@@ -241,7 +245,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5e398fe87ce4948880fce55c340e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 1191676512}
+  port: 5052
+  leftEyePos: {x: 0, y: 0}
+  rightEyePos: {x: 0, y: 0}
+  gazePointerUI: {fileID: 1191676512}
 --- !u!4 &505862129
 Transform:
   m_ObjectHideFlags: 0

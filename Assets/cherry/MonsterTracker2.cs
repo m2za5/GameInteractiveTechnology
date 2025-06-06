@@ -36,7 +36,7 @@ public class MonsterTracker2 : MonoBehaviour
     {
         timer += Time.deltaTime;
         if (timer < updateInterval) return;
-        timer = 0f;
+        timer = 0f; 
 
         TobiiGameIntegrationApi.Update();
 
