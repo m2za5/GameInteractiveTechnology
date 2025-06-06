@@ -29,7 +29,7 @@ public class ButtonClickLogger : MonoBehaviour
 
     void LogButtonClick(string label)
     {
-        string log = $"{System.DateTime.Now},{label}";
+        string log = $"{System.DateTime.Now},{"survey 1"},{label}";
         File.AppendAllText(csvPath, log + "\n");
         Debug.Log($"CSV ¿˙¿Â: {log}");
     }
