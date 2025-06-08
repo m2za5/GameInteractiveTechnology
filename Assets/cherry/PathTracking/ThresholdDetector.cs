@@ -13,10 +13,10 @@ public class ThresholdDetector : MonoBehaviour
     public int failureFrames = 30;          // 실패 조건 프레임 수
 
     [Header("UI")]
-    public TextMeshProUGUI finalBrightText; // ← UI 텍스트 연결용
-    public GameObject nextButtonUI; // ← UI 텍스트 연결용
-    public GameObject startButtonUI; // ← UI 텍스트 연결용
-    public GameObject retryButtonUI; // ← UI 텍스트 연결용
+    public TextMeshProUGUI finalBrightText; 
+    public GameObject nextButtonUI;
+    public GameObject startButtonUI; 
+    public GameObject retryButtonUI; 
 
 
     private BrightnessManager brightnessManager;

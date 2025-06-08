@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
 using Tobii.GameIntegration.Net;
+using UnityEngine.SceneManagement;
 
 public class BlinkCube : MonoBehaviour
 {
@@ -21,8 +22,9 @@ public class BlinkCube : MonoBehaviour
     public RectTransform gazePointer;
 
     [Header("UI")]
-    public GameObject nextButtonUI; // ← UI 텍스트 연결용
-    public GameObject startButtonUI; // ← UI 텍스트 연결용
+    public GameObject nextButtonUI; 
+    public GameObject retryButtonUI; 
+    public GameObject startButtonUI;
 
     private int successfulTests = 0;
     private int failedTests = 0;
@@ -140,6 +142,7 @@ public class BlinkCube : MonoBehaviour
         }
 
         nextButtonUI.SetActive(true);
+        retryButtonUI.SetActive(true);
         Debug.Log("테스트 종료");
     }
 
@@ -252,5 +255,10 @@ public class BlinkCube : MonoBehaviour
         //     Debug.Log($"GazePos: {gazeScreenPos} | Hit UI: {hit}");
 
         return false;
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
