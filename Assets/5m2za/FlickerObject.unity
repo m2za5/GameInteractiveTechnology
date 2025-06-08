@@ -4810,7 +4810,7 @@ MonoBehaviour:
   - {fileID: 1330021444}
   blinkSpeed: 0.05
   blinkDuration: 1
-  testDuration: 5
+  testDuration: 2
   stepDuration: 1
   gazePointer: {fileID: 561736877}
   nextButtonUI: {fileID: 660146662}
