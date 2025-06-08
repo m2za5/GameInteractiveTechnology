@@ -51,7 +51,7 @@ public class CorrelationEvaluator : MonoBehaviour
         }
 
         score = score / gazePath.Count * 200f;
-        scoreText.text = $"Score: {(score):F1} %";
+        scoreText.text = $"{(score):F1} %";
 
         return score;
     }

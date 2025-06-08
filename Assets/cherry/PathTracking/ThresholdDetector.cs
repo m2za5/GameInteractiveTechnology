@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class ThresholdDetector : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class ThresholdDetector : MonoBehaviour
     public TextMeshProUGUI finalBrightText; // ← UI 텍스트 연결용
     public GameObject nextButtonUI; // ← UI 텍스트 연결용
     public GameObject startButtonUI; // ← UI 텍스트 연결용
+    public GameObject retryButtonUI; // ← UI 텍스트 연결용
 
 
     private BrightnessManager brightnessManager;
@@ -66,8 +69,9 @@ public class ThresholdDetector : MonoBehaviour
             }
             else if (successCount < failureFrames)  // 인식 실패
             {
-                finalBrightText.text = $"FinalBright: {(brightnessManager.lastExposureBT):F1} %";
+               // finalBrightText.text = $"FinalBright: {(brightnessManager.lastExposureBT):F1} %";
                 nextButtonUI.SetActive(true);
+                retryButtonUI.SetActive(true);
 
                 Debug.Log($"❌ 인식 실패 지속됨 → frameCount : " + frameCount);
                 brightnessManager.SetFinalExposure();
@@ -105,5 +109,9 @@ public class ThresholdDetector : MonoBehaviour
         startButtonUI.SetActive(false);
     }
 
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }

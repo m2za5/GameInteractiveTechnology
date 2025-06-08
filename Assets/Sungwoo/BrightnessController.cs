@@ -9,6 +9,7 @@ public class BrightnessController : MonoBehaviour
     public Volume volume;               // Volume 오브젝트 연결
     public Slider brightnessSlider;     // UI 슬라이더 연결
     public TMP_Text BrightnessValue; // UI 텍스트 연결
+    public float BasicBrightnessValue; // UI 텍스트 연결
     private ColorAdjustments colorAdjustments;
     
     private static BrightnessController instance;
@@ -37,9 +38,9 @@ public class BrightnessController : MonoBehaviour
        
         if (volume.profile.TryGet(out colorAdjustments))
         {
-            float savedValue = PlayerPrefs.GetFloat(BrightnessKey, 0f);
-            brightnessSlider.value = savedValue;
-            SetBrightness(savedValue);
+        //    float savedValue = PlayerPrefs.GetFloat(BrightnessKey, 0f);
+             brightnessSlider.value = BasicBrightnessValue;
+             SetBrightness(BasicBrightnessValue);
 
             // 슬라이더 변경 시 SetBrightness 호출
             brightnessSlider.onValueChanged.AddListener(SetBrightness);
@@ -56,7 +57,7 @@ public class BrightnessController : MonoBehaviour
         {
             Debug.Log("밝기 조절 중: " + value);
             colorAdjustments.postExposure.value = value;
-            PlayerPrefs.SetFloat(BrightnessKey, value);
+           // PlayerPrefs.SetFloat(BrightnessKey, value);
 
             if (BrightnessValue != null)
             {
