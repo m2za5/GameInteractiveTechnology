@@ -71,20 +71,24 @@ public class BlinkCube : MonoBehaviour
     {
         while (successfulTests + failedTests < totalTests)
         {
-            foreach (GameObject cube in Cubes)
-            {
-                cube.SetActive(false);
-            }
+            Debug.Log($"테스트 {successfulTests + failedTests + 1} 시작");
 
-            bool testFailed = false;
+            int stepSuccessCount = 0;
 
-            for (currentStep = 1; !testFailed; currentStep++)
+            // 3단계 수행
+            for (currentStep = 1; currentStep <= totalSteps; currentStep++)
             {
-                Debug.Log($"단계 {currentStep} 시작");
+                // 큐브 초기화
+                foreach (GameObject cube in Cubes)
+                {
+                    cube.SetActive(false);
+                }
 
                 int randomIndex = UnityEngine.Random.Range(0, Cubes.Length);
                 GameObject selectedCube = Cubes[randomIndex];
                 selectedCube.SetActive(true);
+
+                Debug.Log($"단계 {currentStep} 시작");
 
                 yield return StartCoroutine(Blinking(selectedCube));
 
@@ -97,52 +101,61 @@ public class BlinkCube : MonoBehaviour
                 if (passedStep)
                 {
                     Debug.Log($"단계 {currentStep} 성공");
-                    BrightnessManager.Instance.DecreaseExposure();
+                    stepSuccessCount++;
                 }
                 else
                 {
                     Debug.Log($"단계 {currentStep} 실패");
-
-                    BrightnessManager.Instance.IncreaseExposure(); // 밝기 증가
-                    Debug.Log($"밝기 증가 후: {BrightnessManager.Instance.currentBT}");
-
-                    testFailed = true;
                 }
 
+                selectedCube.SetActive(false);
                 yield return new WaitForSeconds(stepDuration);
             }
 
-            successfulTests++;
-            Debug.Log($"테스트 {successfulTests} 통과!");
-
-            if (successfulTests + failedTests >= totalTests)
+            // 테스트 결과 평가
+            if (stepSuccessCount >= 2)
             {
-                Debug.Log("모든 테스트 완료");
-                break;
+                successfulTests++;
+                Debug.Log($"테스트 성공 ({stepSuccessCount}/3)");
+                BrightnessManager.Instance.DecreaseExposure();
             }
+            else if (stepSuccessCount == 0)
+            {
+                failedTests++;
+                Debug.Log("테스트 실패 (0/3)");
+                BrightnessManager.Instance.IncreaseExposure();
+            }
+            else // == 1
+            {
+                Debug.Log("1단계만 성공 → 현재 테스트 다시 반복");
+                yield return new WaitForSeconds(1f);
+                continue; // 현재 테스트 다시 시작
+            }
+
+            yield return new WaitForSeconds(1f);
         }
 
+        // 테스트 전부 완료
         BrightnessManager.Instance.SetExposure(BrightnessManager.Instance.currentBT);
-        Debug.Log($"테스트 후 최종 밝기: {BrightnessManager.Instance.currentBT}");
-
         nextButtonUI.SetActive(true);
-        Debug.Log("끝~");
+        Debug.Log("모든 테스트 완료");
     }
 
+
     IEnumerator RunTest(System.Action<bool> testResultCallback)
-    {
-        float testEndTime = Time.time + testDuration;
-
-        while (Time.time < testEndTime)
         {
-            if (IsLookingAtTarget_Gaze())
-            {
-                testResultCallback(true);
-                yield break;
-            }
+            float testEndTime = Time.time + testDuration;
 
-            yield return null;
-        }
+            while (Time.time < testEndTime)
+            {
+                if (IsLookingAtTarget_Gaze())
+                {
+                    testResultCallback(true);
+                    yield break;
+                }
+
+                yield return null;
+            }
 
         testResultCallback(false);
     }
@@ -208,7 +221,6 @@ public class BlinkCube : MonoBehaviour
         GazePoint gazePoint;
         if (!TobiiGameIntegrationApi.TryGetLatestGazePoint(out gazePoint))
         {
-            Debug.Log("GazePoint 없음");
             return false;
         }
 
