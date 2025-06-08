@@ -52,7 +52,7 @@ public class BlinkCube : MonoBehaviour
         TobiiGameIntegrationApi.SetApplicationName("Gaze Sample");
         //timer = 0f;
 
-        
+
     }
     public void StartTest()
     {
@@ -69,16 +69,16 @@ public class BlinkCube : MonoBehaviour
 
     IEnumerator ActivateNextCube()
     {
-        while (successfulTests + failedTests < totalTests)
+        float prevExposure = BrightnessManager.Instance.currentBT;
+
+        while (true)
         {
-            Debug.Log($"테스트 {successfulTests + failedTests + 1} 시작");
+            Debug.Log($"테스트 시작");
 
             int stepSuccessCount = 0;
 
-            // 3단계 수행
             for (currentStep = 1; currentStep <= totalSteps; currentStep++)
             {
-                // 큐브 초기화
                 foreach (GameObject cube in Cubes)
                 {
                     cube.SetActive(false);
@@ -93,6 +93,7 @@ public class BlinkCube : MonoBehaviour
                 yield return StartCoroutine(Blinking(selectedCube));
 
                 bool passedStep = false;
+
                 yield return StartCoroutine(RunTest(testResult =>
                 {
                     passedStep = testResult;
@@ -112,50 +113,50 @@ public class BlinkCube : MonoBehaviour
                 yield return new WaitForSeconds(stepDuration);
             }
 
-            // 테스트 결과 평가
             if (stepSuccessCount >= 2)
             {
-                successfulTests++;
                 Debug.Log($"테스트 성공 ({stepSuccessCount}/3)");
+                prevExposure = BrightnessManager.Instance.currentBT;
                 BrightnessManager.Instance.DecreaseExposure();
             }
-            else if (stepSuccessCount == 0)
+            else if (stepSuccessCount == 1)
             {
-                failedTests++;
-                Debug.Log("테스트 실패 (0/3)");
-                BrightnessManager.Instance.IncreaseExposure();
-            }
-            else // == 1
-            {
-                Debug.Log("1단계만 성공 → 현재 테스트 다시 반복");
+                Debug.Log("1단계만 성공 → 테스트 반복");
                 yield return new WaitForSeconds(1f);
-                continue; // 현재 테스트 다시 시작
+                continue;
+            }
+            else
+            {
+                Debug.Log("테스트 실패 (0/3) → 종료");
+                BrightnessManager.Instance.IncreaseExposure();
+
+                BrightnessManager.Instance.SetExposure(prevExposure);
+                Debug.Log($"최종 밝기 복원됨: {prevExposure}");
+
+                break;
             }
 
             yield return new WaitForSeconds(1f);
         }
 
-        // 테스트 전부 완료
-        BrightnessManager.Instance.SetExposure(BrightnessManager.Instance.currentBT);
         nextButtonUI.SetActive(true);
-        Debug.Log("모든 테스트 완료");
+        Debug.Log("테스트 종료");
     }
 
-
     IEnumerator RunTest(System.Action<bool> testResultCallback)
+    {
+        float testEndTime = Time.time + testDuration;
+
+        while (Time.time < testEndTime)
         {
-            float testEndTime = Time.time + testDuration;
-
-            while (Time.time < testEndTime)
+            if (IsLookingAtTarget_Gaze())
             {
-                if (IsLookingAtTarget_Gaze())
-                {
-                    testResultCallback(true);
-                    yield break;
-                }
-
-                yield return null;
+                testResultCallback(true);
+                yield break;
             }
+
+            yield return null;
+        }
 
         testResultCallback(false);
     }
@@ -180,7 +181,7 @@ public class BlinkCube : MonoBehaviour
 
         }
 
-            cubeRenderer.enabled = false;
+        cubeRenderer.enabled = false;
     }
 
 
