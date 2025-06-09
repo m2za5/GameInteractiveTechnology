@@ -19,6 +19,7 @@ public class BrightnessController : MonoBehaviour
     private Color normalTextColor = Color.white;
     private Color highExposureColor = Color.black;
 
+    /*
     void Awake()
     {
         // 중복 방지: 이미 존재하는 인스턴스가 있다면 제거
@@ -31,7 +32,7 @@ public class BrightnessController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject); // 이 오브젝트는 씬 전환 시 파괴되지 않음
     }
-
+    */
     void Start()
     {
         // 볼륨에서 ColorAdjustments 추출

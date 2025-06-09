@@ -19,7 +19,7 @@ public class ThresholdDetector : MonoBehaviour
     public GameObject retryButtonUI; 
 
 
-    private BrightnessManager brightnessManager;
+    public BrightnessManager brightnessManager;
     private int successCount = 0;
     private int failureCount = 0;
     private int frameCount = 0;
@@ -31,7 +31,7 @@ public class ThresholdDetector : MonoBehaviour
 
     private void Start()
     {
-        brightnessManager = BrightnessManager.Instance;
+        //brightnessManager = BrightnessManager.Instance;
     }
 
     void Update()

@@ -21,6 +21,8 @@ public class BrightnessManager : MonoBehaviour
     public float lastExposureBT = 0f;
     public float currentBT;
 
+    /*
+    
     void Awake()
     {
         // ✅ 싱글톤 중복 방지
@@ -32,10 +34,10 @@ public class BrightnessManager : MonoBehaviour
 
         Instance = this;
     }
-
+    */
     void Start()
     {
-
+        volume = GameObject.FindGameObjectWithTag("Volume").GetComponent<Volume>();
         currentBT = target_brightness;
         //SetExposure(currentBT);
 
