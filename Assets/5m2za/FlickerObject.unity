@@ -359,7 +359,7 @@ Transform:
   m_GameObject: {fileID: 54727082}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8, y: -0.40499943, z: 0}
+  m_LocalPosition: {x: 0.8, y: -0.40499943, z: 1.4499996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -632,7 +632,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 1.91
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &234313070
 MeshRenderer:
@@ -1648,7 +1648,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 1.91
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &457927640
 MeshRenderer:
@@ -1827,7 +1827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &583255821
 Transform:
   m_ObjectHideFlags: 0
@@ -1948,7 +1948,7 @@ Transform:
   m_GameObject: {fileID: 638977561}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.0799994, y: 1.8799999, z: 0}
+  m_LocalPosition: {x: -6.0799994, y: 1.8799999, z: 1.4499996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2327,7 +2327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &741287591
 Transform:
   m_ObjectHideFlags: 0
@@ -2684,7 +2684,7 @@ Transform:
   m_GameObject: {fileID: 893782148}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5975013, y: 1.8799999, z: 0}
+  m_LocalPosition: {x: -2.5975013, y: 1.8799999, z: 1.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2999,7 +2999,7 @@ Transform:
   m_GameObject: {fileID: 1079786764}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5975013, y: -0.3699996, z: 0}
+  m_LocalPosition: {x: -2.5975013, y: -0.3699996, z: 1.4499996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3436,7 +3436,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 1.91
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1300700107
 MeshRenderer:
@@ -3587,7 +3587,7 @@ Transform:
   m_GameObject: {fileID: 1330021444}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 1.8799999, z: 0}
+  m_LocalPosition: {x: 0.8, y: 1.8799999, z: 1.4499996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3951,7 +3951,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 1.91
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1393697540
 MeshRenderer:
@@ -4937,12 +4937,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cubes:
-  - {fileID: 234313067}
-  - {fileID: 1860633177}
-  - {fileID: 457927636}
-  - {fileID: 2132537139}
-  - {fileID: 1393697536}
-  - {fileID: 1300700103}
+  - {fileID: 893782148}
+  - {fileID: 2019344674}
+  - {fileID: 54727082}
+  - {fileID: 1079786764}
+  - {fileID: 638977561}
+  - {fileID: 1330021444}
   blinkSpeed: 0.05
   blinkDuration: 1
   testDuration: 2
@@ -5196,7 +5196,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 1.91
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1860633181
 MeshRenderer:
@@ -5452,7 +5452,7 @@ Transform:
   m_GameObject: {fileID: 2019344674}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.1024985, y: -0.32999992, z: 0}
+  m_LocalPosition: {x: -6.1024985, y: -0.32999992, z: 1.4499996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5670,7 +5670,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2
+  m_Radius: 1.91
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2132537143
 MeshRenderer:
