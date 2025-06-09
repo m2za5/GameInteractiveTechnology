@@ -40,7 +40,7 @@ public class BrightnessManager : MonoBehaviour
         volume = GameObject.FindGameObjectWithTag("Volume").GetComponent<Volume>();
         currentBT = target_brightness;
         //SetExposure(currentBT);
-        Instance = this;
+
         // Color Adjustments 효과를 Profile에서 찾기
         if (volume.profile.TryGet(out colorAdjustments))
         {
