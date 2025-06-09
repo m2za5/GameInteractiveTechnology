@@ -36,7 +36,7 @@ public class BrightnessController : MonoBehaviour
     void Start()
     {
         // 볼륨에서 ColorAdjustments 추출
-       
+        //instance = this;
         if (volume.profile.TryGet(out colorAdjustments))
         {
         //    float savedValue = PlayerPrefs.GetFloat(BrightnessKey, 0f);

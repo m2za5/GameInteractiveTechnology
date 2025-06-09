@@ -21,6 +21,7 @@ public class BrightnessManager : MonoBehaviour
     public float lastExposureBT = 0f;
     public float currentBT;
 
+
     /*
     
     void Awake()
@@ -37,6 +38,8 @@ public class BrightnessManager : MonoBehaviour
     */
     void Start()
     {
+        Instance = this;
+
         volume = GameObject.FindGameObjectWithTag("Volume").GetComponent<Volume>();
         currentBT = target_brightness;
         //SetExposure(currentBT);
